@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .typewriter {
+      white-space: pre-wrap;
+      font-family: monospace;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="typewriter">
+    <p id="demo"></p>
+  </div>
+
+  <input type="file" id="fileInput" />
+  <input type="number" id="speedInput" placeholder="Display speed (ms)" />
+
+  <script>
+    document.getElementById('fileInput').addEventListener('change', function() {
+      const file = this.files[0];
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const text = e.target.result;
+        const speed = document.getElementById('speedInput').value || 2; // Default speed: 100ms
+        let i = 0;
+        const displayText = () => {
+          if (i < text.length) {
+            document.getElementById('demo').innerText += text[i];
+            i++;
+            document.getElementById('demo').scrollIntoView(false); // Scroll to bottom of element
+            setTimeout(displayText, speed);
+          }
+        };
+        displayText();
+      };
+      reader.readAsText(file);
+    });
+  </script>
+</body>
+</html>
